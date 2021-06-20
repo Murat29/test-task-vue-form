@@ -3,11 +3,141 @@
   flex-direction: column
   align-items: center
 
+@mixin font-inter
+  font-family: 'Inter', Arial, Helvetica, sans-serif
+
 .form
   @include column-arrangement
+  @include font-inter
+  gap: 40px
+  max-width: 550px
+  width: 100%
+  padding: 30px
+  box-sizing: border-box
 
 .form__title
-  font-size: 50px
+  font-weight: 500
+  font-size: 24px
+  line-height: 29px
+  margin: 0
+
+.form__promotion
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+  gap: 30px
+
+.form__dot
+  width: 20px
+  height: 20px
+  border-radius: 50%
+  background-color: #bbbbbb
+  &__active
+    background-color: #818181
+  &__finish
+    background-color: #2baa2f
 
 .form__fieldset
   @include column-arrangement
+  gap: 10px
+  width: 100%
+  margin: 0
+  padding: 0
+  border: none
+
+.form__legend
+  font-size: 18px
+  font-weight: 400
+  line-height: 24px
+  margin-bottom: 30px
+
+
+.filter-checkbox
+  font-family: 'Inter', Arial, sans-serif
+  font-weight: normal
+  font-style: normal
+  display: flex
+  flex-direction: row
+  gap: 12px
+  position: relative
+
+  &__invisible-checkbox
+    position: absolute
+    width: 1px
+    height: 1px
+    overflow: hidden
+    clip: rect(0 0 0 0)
+
+  &__visible-checkbox
+    background-color: #ebebeb
+    transition: 0.4s
+    border-radius: 20px
+    width: 36px
+    height: 20px
+    cursor: pointer
+    border: 1px solid #ebebeb
+
+  &__visible-checkbox:before
+    position: absolute
+    content: ''
+    height: 8px
+    width: 8px
+    left: 6px
+    bottom: 6px
+    background: #ffffff
+    transition: 0.3s
+    border-radius: 50%
+
+  &__visible-checkbox:hover
+    opacity: 0.7
+
+.filter-checkbox__invisible-checkbox:checked + .filter-checkbox__visible-checkbox
+  background-color: #2be080
+  border-color: #2be080
+
+.filter-checkbox__invisible-checkbox:focus + .filter-checkbox__visible-checkbox
+  border-color: #000000
+
+.filter-checkbox__invisible-checkbox:checked + .filter-checkbox__visible-checkbox:before
+  transform: translateX(16px)
+
+.filter-checkbox__text
+  margin: 0
+  font-size: 14px
+  line-height: 18px
+
+@media screen and (max-width: 425px)
+  .filter-checkbox__text
+    font-size: 11px
+
+.form__submit
+  font-family: 'Inter', Arial, sans-serif
+  font-style: normal
+  -webkit-appearance: none
+  -moz-appearance: none
+  appearance: none
+  padding: 0
+  margin: 0
+  width: 100%
+  min-height: 45px
+  border: 1px solid #ff6838
+  box-shadow: none
+  cursor: pointer
+  outline: none
+  background-color: #ff6838
+  border-radius: 3px
+  color: #ffffff
+  font-weight: 500
+  font-size: 14px
+  line-height: 17px
+
+  &:hover
+    opacity: 0.8
+
+  &:focus
+    border-color: #000000
+
+  &:disabled
+    border-color: #f8f8f8
+    background: #f8f8f8
+    color: #c2c2c2

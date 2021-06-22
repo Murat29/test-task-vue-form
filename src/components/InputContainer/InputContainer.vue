@@ -12,7 +12,7 @@
     <p
       class="form__input-error"
     >
-      {{ isError ? errorMessage : '' }}
+      {{ isError ? errorMessage || "Поле, обязательное для заполнения" : '' }}
     </p>
   </div>
 </template>
@@ -31,7 +31,7 @@ export default {
     },
     errorMessage: {
       type: String,
-      default: ""
+      default: "Поле, обязательное для заполнения"
     },
     tel: {
       type: Boolean,

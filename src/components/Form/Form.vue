@@ -8,24 +8,12 @@
     </h1>
     <div class="form__promotion">
       <div
+        v-for="(item) in arrayFieldset"
+        :key="item"
         :class="{
           form__dot: true,
-          form__dot__finish: actileFieldset > 1,
-          form__dot__active: actileFieldset === 1,
-        }"
-      />
-      <div
-        :class="{
-          form__dot: true,
-          form__dot__finish: actileFieldset > 2,
-          form__dot__active: actileFieldset === 2,
-        }"
-      />
-      <div
-        :class="{
-          form__dot: true,
-          form__dot__finish: actileFieldset > 3,
-          form__dot__active: actileFieldset === 3,
+          form__dot__finish: actileFieldset > item,
+          form__dot__active: actileFieldset === item,
         }"
       />
     </div>
@@ -147,9 +135,6 @@
         </select>
       </InputContainer>
 
-
-
-
       <label class="form__checkbox">
         <input
           v-model.trim="clientData.notSendSms"
@@ -247,6 +232,7 @@ export default {
   },
   data() {
     return {
+      arrayFieldset: [1,2,3],
       actileFieldset: 1,
       clientData: {
         surname: null,
@@ -306,11 +292,15 @@ export default {
   methods: {
     submit(e) {
       e.preventDefault();
-      this.actileFieldset++;
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
+        if (this.actileFieldset < this.arrayFieldset.length) this.actileFieldset++;
+        else {
+          // отправка данных
+        }
+      }
     },
     handleInputChange(e) {
-      console.log(this.clientData.notSendSms);
-
       // обновление данных
       const name = e.target.name;
       this.clientData[name] = e.target.value;
@@ -325,7 +315,7 @@ export default {
             this.errorMessage[name] =  this.constErrorMessage.required;
             return;
             } else if (this.$v.clientData[name].numeric !== undefined && !this.$v.clientData[name].numeric) {
-            this.errorMessage[name] = 'Поле должно содержать не менее только цифры';
+            this.errorMessage[name] = 'Поле должно содержать только цифры';
             return
             } else if (this.$v.clientData[name].minLength !== undefined && !this.$v.clientData[name].minLength) {
             this.errorMessage[name] = `Поле должно содержать не менее ${this.$v.clientData[name].$params.minLength.min } символов`;

@@ -1,24 +1,28 @@
-# test-task-vue-form
+## Форма
 
-## Project setup
-```
-npm install
-```
+### [Демонстрация](https://murat29.github.io/test-task-vue-form/)
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+### Описание 
+Форма в три этапа с валидацией. С различными типами вводимых данных.
 
-### Compiles and minifies for production
-```
-npm run build
-```
+### Использованные технологии
+* Vue
+* Vuelidate
+* Sass
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Компоненты
+* Form - основной компонент
+* Input - поле ввода. Использует компонет InputContainer. Принимает следующие пропсы:
+  * placeholder
+  * is-error - нужно ли отображать ошибку (будет не совсем корректно, если при открытии формы, ошибки сразу будут отображаться)
+  * error-message - выводимое пользователю, сообщение об ошибке
+  * tel - является ли поле ввода телефоном (добавляется '7' в input, которую нельзя стереть)
+  * value
+  * type - тип input
+  * name - уникальное имя
+  * groupName - категорию данных, к которой относится данный input
+  * maxlength - максимальная длинна
+* InputContainer - используется в компоненте Input, а также для оберки select. Принимает следующие пропсы:
+ * placeholder
+ * is-error
+ * error-message

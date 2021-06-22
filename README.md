@@ -23,6 +23,6 @@
   * groupName - категорию данных, к которой относится данный input
   * maxlength - максимальная длинна
 * InputContainer - используется в компоненте Input, а также для оберки select. Принимает следующие пропсы:
- * placeholder
- * is-error
- * error-message
+  * placeholder
+  * is-error
+  * error-message

@@ -150,16 +150,15 @@
 
 
 
-      <label class="filter-checkbox">
+      <label class="form__checkbox">
         <input
-
-          id="filter-shortfilm"
-          class="filter-checkbox__invisible-checkbox"
+          v-model.trim="clientData.notSendSms"
+          class="form__invisible-checkbox"
           type="checkbox"
-          name="shortfilm"
+          name="notSendSms"
         >
-        <span class="filter-checkbox__visible-checkbox" />
-        <p class="filter-checkbox__text">Не отправлять СМС</p>
+        <span class="form__visible-checkbox" />
+        <p class="form__text">Не отправлять СМС</p>
       </label>
     </fieldset>
     <fieldset
@@ -258,6 +257,7 @@ export default {
         gender: null,
         clientGroup: [],
         doctor: null,
+        notSendSms: false,
       },
       errorMessage: {
         surname: '',
@@ -306,15 +306,15 @@ export default {
   methods: {
     submit(e) {
       e.preventDefault();
-      console.log($v.name);
       this.actileFieldset++;
     },
     handleInputChange(e) {
+      console.log(this.clientData.notSendSms);
+
       // обновление данных
       const name = e.target.name;
       this.clientData[name] = e.target.value;
       this.$v.clientData[name].$touch();
-      console.log(this.clientData.surname);
 
       // обновление собщения об ошибке
       if (!this.$v.clientData[name].$error) {

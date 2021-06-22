@@ -445,6 +445,7 @@ export default {
         if (this.actileFieldset < this.arrayFieldset.length-1) this.actileFieldset++;
         else {
           this.isFormSent = true;
+          this.clientData.personalData.tel = '7'+this.clientData.personalData.tel;
           // отправка данных
         }
       }

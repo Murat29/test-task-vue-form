@@ -15,7 +15,7 @@
       :type="type"
       :name="name"
       :maxlength="maxlength"
-      @input="handleChange($event)"
+      @input="handleChange($event, groupName)"
     >
   </InputContainer>
 </template>
@@ -50,6 +50,10 @@ export default {
       default: 'text',
     },
     name: {
+      type: String,
+      default: '',
+    },
+    groupName: {
       type: String,
       default: '',
     },

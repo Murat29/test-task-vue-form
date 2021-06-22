@@ -8,17 +8,17 @@
     </h1>
     <div class="form__promotion">
       <div
-        v-for="(item) in arrayFieldset"
-        :key="item"
+        v-for="(el, i) in arrayFieldset"
+        :key="el"
         :class="{
           form__dot: true,
-          form__dot__finish: actileFieldset > item,
-          form__dot__active: actileFieldset === item,
+          form__dot__finish: actileFieldset > i,
+          form__dot__active: actileFieldset === i,
         }"
       />
     </div>
     <fieldset
-      v-show="actileFieldset === 1"
+      v-show="actileFieldset === 0"
       class="form__fieldset"
     >
       <legend class="form__legend">
@@ -26,22 +26,24 @@
       </legend>
 
       <Input
-        :value="clientData.surname"
+        :value="clientData.personalData.surname"
         placeholder="Фамилия"
-        :is-error="$v.clientData.surname.$error"
-        :error-message="errorMessage.surname"
+        :is-error="$v.clientData.personalData.surname.$error"
+        :error-message="errorMessage.personalData.surname"
         type="text"
+        group-name="personalData"
         name="surname"
         maxlength="30"
         :handle-change="handleInputChange"
       />
 
       <Input
-        :value="clientData.name"
+        :value="clientData.personalData.name"
         placeholder="Имя"
-        :is-error="$v.clientData.name.$error"
-        :error-message="errorMessage.name"
+        :is-error="$v.clientData.personalData.name.$error"
+        :error-message="errorMessage.personalData.name"
         type="text"
+        group-name="personalData"
         name="name"
         maxlength="30"
         :handle-change="handleInputChange"
@@ -49,34 +51,37 @@
 
 
       <Input
-        :value="clientData.patronymic"
+        :value="clientData.personalData.patronymic"
         placeholder="Отчество"
-        :is-error="$v.clientData.patronymic.$error"
-        :error-message="errorMessage.patronymic"
+        :is-error="$v.clientData.personalData.patronymic.$error"
+        :error-message="errorMessage.personalData.patronymic"
         type="text"
+        group-name="personalData"
         name="patronymic"
         maxlength="30"
         :handle-change="handleInputChange"
       />
 
       <Input
-        :value="clientData.dateOfBirth"
+        :value="clientData.personalData.dateOfBirth"
         placeholder="Дата рождения"
-        :is-error="$v.clientData.dateOfBirth.$error"
-        :error-message="errorMessage.dateOfBirth"
+        :is-error="$v.clientData.personalData.dateOfBirth.$error"
+        :error-message="errorMessage.personalData.dateOfBirth"
         type="date"
+        group-name="personalData"
         name="dateOfBirth"
         :handle-change="handleInputChange"
       />
 
 
       <Input
-        :value="clientData.tel"
+        :value="clientData.personalData.tel"
         placeholder="Номер телефона"
-        :is-error="$v.clientData.tel.$error"
-        :error-message="errorMessage.tel"
+        :is-error="$v.clientData.personalData.tel.$error"
+        :error-message="errorMessage.personalData.tel"
         :tel="true"
         type="tel"
+        group-name="personalData"
         name="tel"
         maxlength="10"
         :handle-change="handleInputChange"
@@ -86,11 +91,12 @@
       <!--В тестовом задании явно не указано какой input использовать, как в у других полей.
           Мне кажется сдесь лучше подойдут radio, например М, Ж, другой-->
       <Input
-        :value="clientData.gender"
+        :value="clientData.personalData.gender"
         placeholder="Пол"
-        :is-error="$v.clientData.gender.$error"
-        :error-message="errorMessage.gender"
+        :is-error="$v.clientData.personalData.gender.$error"
+        :error-message="errorMessage.personalData.gender"
         type="text"
+        group-name="personalData"
         name="gender"
         maxlength="15"
         :handle-change="handleInputChange"
@@ -99,16 +105,16 @@
 
       <InputContainer
         placeholder="Группа клиентов"
-        :is-error="$v.clientData.clientGroup.$error"
+        :is-error="$v.clientData.personalData.clientGroup.$error"
         :error-message="constErrorMessage.required"
       >
         <select
-          v-model.trim="$v.clientData.clientGroup.$model"
+          v-model.trim="$v.clientData.personalData.clientGroup.$model"
           multiple
           :class="{
             form__select: true,
             form__select_type_multiple: true,
-            form__select_error: $v.clientData.clientGroup.$error,
+            form__select_error: $v.clientData.personalData.clientGroup.$error,
           }"
           name="clientGroup"
         >
@@ -122,10 +128,10 @@
         placeholder="Лечащий врач"
       >
         <select
-          v-model.trim="$v.clientData.doctor.$model"
+          v-model.trim="$v.clientData.personalData.doctor.$model"
           :class="{
             form__select: true,
-            form__select_error: $v.clientData.doctor.$error,
+            form__select_error: $v.clientData.personalData.doctor.$error,
           }"
           name="doctor"
         >
@@ -137,85 +143,184 @@
 
       <label class="form__checkbox">
         <input
-          v-model.trim="clientData.notSendSms"
+          v-model.trim="clientData.personalData.notSendSms"
           class="form__invisible-checkbox"
           type="checkbox"
+          group-name="personalData"
           name="notSendSms"
         >
         <span class="form__visible-checkbox" />
         <p class="form__text">Не отправлять СМС</p>
       </label>
     </fieldset>
+
     <fieldset
-      v-show="actileFieldset === 2"
+      v-show="actileFieldset === 1"
       class="form__fieldset"
     >
       <legend class="form__legend">
         Адрес
       </legend>
-      <input
-        type="number"
+
+      <Input
+        :value="clientData.address.index"
         placeholder="Индекс"
-      >
-      <input
+        :is-error="$v.clientData.address.index.$error"
+        :error-message="errorMessage.address.index"
         type="text"
+        group-name="address"
+        name="index"
+        maxlength="15"
+        :handle-change="handleInputChange"
+      />
+
+      <Input
+        :value="clientData.address.country"
         placeholder="Страна"
-      >
-      <input
+        :is-error="$v.clientData.address.country.$error"
+        :error-message="errorMessage.address.country"
         type="text"
+        group-name="address"
+        name="country"
+        maxlength="20"
+        :handle-change="handleInputChange"
+      />
+
+      <Input
+        :value="clientData.address.region"
         placeholder="Область"
-      >
-      <input
+        :is-error="$v.clientData.address.region.$error"
+        :error-message="errorMessage.address.region"
         type="text"
+        group-name="address"
+        name="region"
+        maxlength="20"
+        :handle-change="handleInputChange"
+      />
+
+      <Input
+        :value="clientData.address.city"
         placeholder="Город"
-        required
-      >
-      <input
+        :is-error="$v.clientData.address.city.$error"
+        :error-message="errorMessage.address.city"
         type="text"
+        group-name="address"
+        name="city"
+        maxlength="20"
+        :handle-change="handleInputChange"
+      />
+
+      <Input
+        :value="clientData.address.street"
         placeholder="Улица"
-      >
-      <input
+        :is-error="$v.clientData.address.street.$error"
+        :error-message="errorMessage.address.street"
         type="text"
+        group-name="address"
+        name="street"
+        maxlength="20"
+        :handle-change="handleInputChange"
+      />
+
+      <Input
+        :value="clientData.address.house"
         placeholder="Дом"
-        required
-      >
+        :is-error="$v.clientData.address.house.$error"
+        :error-message="errorMessage.address.house"
+        type="text"
+        group-name="address"
+        name="house"
+        maxlength="20"
+        :handle-change="handleInputChange"
+      />
     </fieldset>
     <fieldset
-      v-show="actileFieldset === 3"
+      v-show="actileFieldset === 2"
       class="form__fieldset"
     >
       <legend class="form__legend">
         Паспорт
       </legend>
-      <select>
-        <option>Паспорт</option>
-        <option>Свидетельство о рождении</option>
-        <option>Вод. удостоверение</option>
-      </select>
-      <input
-        type="number"
+
+      <InputContainer
+        placeholder="Тип документа"
+        :is-error="$v.clientData.passport.documentType.$error"
+        :error-message="constErrorMessage.required"
+      >
+        <select
+          v-model.trim="$v.clientData.passport.documentType.$model"
+          :class="{
+            form__select: true,
+            form__select_error: $v.clientData.passport.documentType.$error,
+          }"
+          name="documentType"
+        >
+          <option>Паспорт</option>
+          <option>Свидетельство о рождении</option>
+          <option>Вод. удостоверение</option>
+        </select>
+      </InputContainer>
+
+
+      <Input
+        :value="clientData.passport.series"
         placeholder="Серия"
-      >
-      <input
-        type="number"
-        placeholder="Номер"
-      >
-      <input
+        :is-error="$v.clientData.passport.series.$error"
+        :error-message="errorMessage.passport.series"
         type="text"
+        group-name="passport"
+        name="series"
+        maxlength="4"
+        :handle-change="handleInputChange"
+      />
+
+      <Input
+        :value="clientData.passport.number"
+        placeholder="Номер"
+        :is-error="$v.clientData.passport.number.$error"
+        :error-message="errorMessage.passport.number"
+        type="text"
+        group-name="passport"
+        name="number"
+        maxlength="6"
+        :handle-change="handleInputChange"
+      />
+
+      <Input
+        :value="clientData.passport.issuedBy"
         placeholder="Кем выдан"
-      >
-      <input
-        type="date"
+        :is-error="$v.clientData.passport.issuedBy.$error"
+        :error-message="errorMessage.passport.issuedBy"
+        type="text"
+        group-name="passport"
+        name="issuedBy"
+        maxlength="40"
+        :handle-change="handleInputChange"
+      />
+
+      <Input
+        :value="clientData.passport.dateOfIssue"
         placeholder="Дата выдачи"
-        required
-      >
+        :is-error="$v.clientData.passport.dateOfIssue.$error"
+        :error-message="errorMessage.passport.dateOfIssue"
+        type="date"
+        group-name="passport"
+        name="dateOfIssue"
+        :handle-change="handleInputChange"
+      />
     </fieldset>
     <button
       class="form__submit"
       @click="submit"
     >
-      Далее
+      {{ actileFieldset === (arrayFieldset.length - 1) ? 'Создать нового клиента': 'Далее' }}
     </button>
+    <p
+      v-show="isFormSent"
+      class="form__text"
+    >
+      Новый клиент успешно создан
+    </p>
   </form>
 </template>
 
@@ -232,28 +337,41 @@ export default {
   },
   data() {
     return {
-      arrayFieldset: [1,2,3],
-      actileFieldset: 1,
+      arrayFieldset: ['personalData','address','passport'],
+      actileFieldset: 0,
+      isFormSent: false,
       clientData: {
-        surname: null,
-        name: null,
-        patronymic: null,
-        dateOfBirth: null,
-        tel: null,
-        gender: null,
-        clientGroup: [],
-        doctor: null,
-        notSendSms: false,
+        personalData: {
+          surname: null,
+          name: null,
+          patronymic: null,
+          dateOfBirth: null,
+          tel: null,
+          gender: null,
+          clientGroup: [],
+          doctor: null,
+          notSendSms: false,
+        },
+        address: {
+          index: null,
+          country: null,
+          region: null,
+          city: null,
+          street: null,
+          house: null,
+        },
+        passport: {
+          documentType: null,
+          series: null,
+          number: null,
+          issuedBy: null,
+          dateOfIssue: null,
+        },
       },
       errorMessage: {
-        surname: '',
-        name: '',
-        patronymic: '',
-        dateOfBirth: '',
-        tel: '',
-        gender: '',
-        clientGroup: '',
-        doctor: '',
+        personalData: {},
+        address: {},
+        passport: {},
       },
       constErrorMessage: {
         required: "Поле, обязательное для заполнения",
@@ -262,70 +380,101 @@ export default {
   },
 
    validations: {
-        clientData: {
-        surname: {
-          required,
-          minLength: minLength(2),
+      clientData: {
+        personalData: {
+          surname: {
+            required,
+            minLength: minLength(2),
+          },
+          name: {
+            required,
+            minLength: minLength(2),
+          },
+          patronymic: {
+            minLength: minLength(2),
+          },
+          dateOfBirth: {
+            required,
+          },
+          tel: {
+            required,
+            numeric,
+            minLength: minLength(10),
+          },
+          gender: {},
+          clientGroup: {
+            required,
+          },
+          doctor: {},
         },
-        name: {
-          required,
-          minLength: minLength(2),
+        address: {
+          index: {
+            numeric,
+          },
+          country: {},
+          region: {},
+          city: {
+            required,
+          },
+          street: {},
+          house: {},
         },
-        patronymic: {
-          minLength: minLength(2),
-        },
-        dateOfBirth: {
-          required,
-        },
-        tel: {
-          required,
-          numeric,
-          minLength: minLength(10),
-        },
-        gender: {},
-        clientGroup: {
-          required,
-        },
-        doctor: {},
+        passport: {
+          documentType: {
+            required,
+          },
+          series: {
+            numeric,
+          },
+          number: {
+            numeric,
+          },
+          issuedBy: {},
+          dateOfIssue: {
+            required,
+          },
       },
+    },
   },
   methods: {
     submit(e) {
       e.preventDefault();
-      this.$v.$touch();
-      if (!this.$v.$invalid) {
-        if (this.actileFieldset < this.arrayFieldset.length) this.actileFieldset++;
+      const vCurrent = this.$v.clientData[this.arrayFieldset[this.actileFieldset]];
+      console.log(this.$v.clientData);
+      vCurrent.$touch();
+      if (!vCurrent.$invalid) {
+        if (this.actileFieldset < this.arrayFieldset.length-1) this.actileFieldset++;
         else {
+          this.isFormSent = true;
           // отправка данных
         }
       }
     },
-    handleInputChange(e) {
+    handleInputChange(e, groupName) {
       // обновление данных
       const name = e.target.name;
-      this.clientData[name] = e.target.value;
-      this.$v.clientData[name].$touch();
+      this.clientData[groupName][name] = e.target.value;
+      this.$v.clientData[groupName][name].$touch();
 
-      // обновление собщения об ошибке
-      if (!this.$v.clientData[name].$error) {
-        this.errorMessage[name] = ''
-        return ;
-      } else {
-          if (this.$v.clientData[name].required !== undefined && !this.$v.clientData[name].required){
-            this.errorMessage[name] =  this.constErrorMessage.required;
-            return;
-            } else if (this.$v.clientData[name].numeric !== undefined && !this.$v.clientData[name].numeric) {
-            this.errorMessage[name] = 'Поле должно содержать только цифры';
-            return
-            } else if (this.$v.clientData[name].minLength !== undefined && !this.$v.clientData[name].minLength) {
-            this.errorMessage[name] = `Поле должно содержать не менее ${this.$v.clientData[name].$params.minLength.min } символов`;
-            return
-            }
-          this.errorMessage[name] ='Не допустимое значение';
-          return;
-        }
-
+      // обновление сообщения об ошибке
+      this.errorMessage[groupName][name] = this.getErrorMessage(groupName, name);
     },
+
+    getErrorMessage(groupName, name) {
+      const current = this.$v.clientData[groupName][name];
+      if (!current.$error) {
+        return '';
+      } else {
+          if (current.required !== undefined && !current.required){
+            return this.constErrorMessage.required;
+          } else if (current.numeric !== undefined && !current.numeric) {
+              return 'Поле должно содержать только цифры';
+          } else if (current.minLength !== undefined && !current.minLength) {
+              return `Поле должно содержать не менее ${current.$params.minLength.min } символов`;
+          }
+          return 'Не допустимое значение';
+        }
+    }
   }
 };
 </script>

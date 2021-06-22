@@ -1,3 +1,3 @@
 module.exports = {
-    publicPath: "test-task-vue-form",
+    publicPath: "/test-task-vue-form/",
   }

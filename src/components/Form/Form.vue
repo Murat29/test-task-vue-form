@@ -440,7 +440,6 @@ export default {
     submit(e) {
       e.preventDefault();
       const vCurrent = this.$v.clientData[this.arrayFieldset[this.actileFieldset]];
-      console.log(this.$v.clientData);
       vCurrent.$touch();
       if (!vCurrent.$invalid) {
         if (this.actileFieldset < this.arrayFieldset.length-1) this.actileFieldset++;

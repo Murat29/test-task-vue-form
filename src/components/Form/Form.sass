@@ -51,6 +51,35 @@
   line-height: 24px
   margin-bottom: 30px
 
+.form__select
+  margin-top: 10px
+  width: 100%
+  background-color: #f9f9f9
+  border-radius: 8px
+  outline: none
+  border: 1px solid #808080
+  box-sizing: border-box
+  min-height: 30px
+  padding: 0 15px
+  font-style: normal
+  font-weight: normal
+  font-size: 13px
+  line-height: 16px
+
+  &::placeholder
+  @include font-inter
+
+  &:focus
+    border-color: #000000
+
+  &_error
+    border-color: #ff0000
+
+  &_type_multiple
+    padding-top: 5px
+    padding-bottom: 5px
+    max-height: 65px
+
 
 .filter-checkbox
   font-family: 'Inter', Arial, sans-serif

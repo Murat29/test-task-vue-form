@@ -37,116 +37,77 @@
         Личные данные
       </legend>
 
-      <InputContainer
+      <Input
+        :value="clientData.surname"
         placeholder="Фамилия"
         :is-error="$v.clientData.surname.$error"
         :error-message="errorMessage.surname"
-      >
-        <input
-          v-model.trim="clientData.surname"
-          :class="{
-            form__input_error: $v.clientData.surname.$error,
-            form__input: true,
-          }"
-          type="text"
-          name="surname"
-          maxlength="30"
-          @input="handleInputChange($event)"
-        >
-      </InputContainer>
+        type="text"
+        name="surname"
+        maxlength="30"
+        :handle-change="handleInputChange"
+      />
 
-      <InputContainer
+      <Input
+        :value="clientData.name"
         placeholder="Имя"
         :is-error="$v.clientData.name.$error"
         :error-message="errorMessage.name"
-      >
-        <input
-          v-model.trim="clientData.name"
-          :class="{
-            form__input_error: $v.clientData.name.$error,
-            form__input: true,
-          }"
-          type="text"
-          name="name"
-          maxlength="30"
-          @input="handleInputChange($event)"
-        >
-      </InputContainer>
+        type="text"
+        name="name"
+        maxlength="30"
+        :handle-change="handleInputChange"
+      />
 
-      <InputContainer
+
+      <Input
+        :value="clientData.patronymic"
         placeholder="Отчество"
         :is-error="$v.clientData.patronymic.$error"
         :error-message="errorMessage.patronymic"
-      >
-        <input
-          v-model.trim="clientData.patronymic"
-          :class="{
-            form__input_error: $v.clientData.patronymic.$error,
-            form__input: true,
-          }"
-          type="text"
-          name="patronymic"
-          maxlength="30"
-          @input="handleInputChange($event)"
-        >
-      </InputContainer>
+        type="text"
+        name="patronymic"
+        maxlength="30"
+        :handle-change="handleInputChange"
+      />
 
-      <InputContainer
+      <Input
+        :value="clientData.dateOfBirth"
         placeholder="Дата рождения"
         :is-error="$v.clientData.dateOfBirth.$error"
         :error-message="errorMessage.dateOfBirth"
-      >
-        <input
-          v-model.trim="clientData.dateOfBirth"
-          :class="{
-            form__input_error: $v.clientData.dateOfBirth.$error,
-            form__input: true,
-          }"
-          type="date"
-          name="dateOfBirth"
-          @input="handleInputChange($event)"
-        >
-      </InputContainer>
+        type="date"
+        name="dateOfBirth"
+        :handle-change="handleInputChange"
+      />
 
-      <InputContainer
+
+      <Input
+        :value="clientData.tel"
         placeholder="Номер телефона"
         :is-error="$v.clientData.tel.$error"
         :error-message="errorMessage.tel"
         :tel="true"
-      >
-        <input
-          v-model.trim="clientData.tel"
-          :class="{
-            form__input_error: $v.clientData.tel.$error,
-            form__input: true,
-            form__input_tel: true,
-          }"
-          type="tel"
-          name="tel"
-          maxlength="10"
-          @input="handleInputChange($event)"
-        >
-      </InputContainer>
+        type="tel"
+        name="tel"
+        maxlength="10"
+        :handle-change="handleInputChange"
+      />
+
 
       <!--В тестовом задании явно не указано какой input использовать, как в у других полей.
           Мне кажется сдесь лучше подойдут radio, например М, Ж, другой-->
-      <InputContainer
+      <Input
+        :value="clientData.gender"
         placeholder="Пол"
         :is-error="$v.clientData.gender.$error"
         :error-message="errorMessage.gender"
-      >
-        <input
-          v-model.trim="clientData.gender"
-          :class="{
-            form__input_error: $v.clientData.gender.$error,
-            form__input: true,
-          }"
-          type="text"
-          name="gender"
-          maxlength="15"
-          @input="handleInputChange($event)"
-        >
-      </InputContainer>
+        type="text"
+        name="gender"
+        maxlength="15"
+        :handle-change="handleInputChange"
+      />
+
 
       <InputContainer
         placeholder="Группа клиентов"
@@ -157,9 +118,9 @@
           v-model.trim="$v.clientData.clientGroup.$model"
           multiple
           :class="{
-            form__input: true,
-            form__input_type_multiple: true,
-            form__input_error: $v.clientData.clientGroup.$error,
+            form__select: true,
+            form__select_type_multiple: true,
+            form__select_error: $v.clientData.clientGroup.$error,
           }"
           name="clientGroup"
         >
@@ -171,14 +132,12 @@
 
       <InputContainer
         placeholder="Лечащий врач"
-        :is-error="$v.clientData.doctor.$error"
-        :error-message="''"
       >
         <select
           v-model.trim="$v.clientData.doctor.$model"
           :class="{
-            form__input: true,
-            form__input_error: $v.clientData.doctor.$error,
+            form__select: true,
+            form__select_error: $v.clientData.doctor.$error,
           }"
           name="doctor"
         >
@@ -280,10 +239,12 @@
 <script>
 import { required, minLength, numeric } from "vuelidate/lib/validators";
 import InputContainer from '../InputContainer/InputContainer.vue';
+import Input from '../Input/Input.vue';
 export default {
   name: "Form",
   components: {
     InputContainer,
+    Input,
   },
   data() {
     return {
@@ -342,7 +303,6 @@ export default {
         doctor: {},
       },
   },
-
   methods: {
     submit(e) {
       e.preventDefault();
@@ -350,11 +310,11 @@ export default {
       this.actileFieldset++;
     },
     handleInputChange(e) {
-      console.log(this.clientData.doctor);
       // обновление данных
       const name = e.target.name;
       this.clientData[name] = e.target.value;
       this.$v.clientData[name].$touch();
+      console.log(this.clientData.surname);
 
       // обновление собщения об ошибке
       if (!this.$v.clientData[name].$error) {

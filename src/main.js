@@ -4,6 +4,7 @@ import App from "./components/App/App.vue";
 
 Vue.use(Vuelidate);
 Vue.config.productionTip = false;
+Vue.config.devtools = true;
 
 new Vue({
   render: h => h(App)
